@@ -20,13 +20,14 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
 from database import init_db, save_message
 from forms import ContactForm
-from icons import render_icon
+from icons import render_icon, render_logo_mark
 import data
 
 app = Flask(__name__)
 app.config.from_object(Config)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 app.jinja_env.globals["icon"] = render_icon
+app.jinja_env.globals["logo_mark"] = render_logo_mark
 app.jinja_env.globals["current_year"] = lambda: datetime.now().year
 
 logger = logging.getLogger(__name__)

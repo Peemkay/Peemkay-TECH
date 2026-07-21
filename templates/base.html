@@ -42,7 +42,7 @@
 <header class="navbar" id="navbar">
   <div class="container navbar__inner">
     <a href="{{ url_for('home') }}" class="navbar__brand" aria-label="{{ site.SITE_NAME }} home">
-      <span class="navbar__mark">PK</span>
+      <span class="navbar__mark">{{ logo_mark() }}</span>
       <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
     </a>
 
@@ -107,7 +107,7 @@
   <div class="container footer__grid">
     <div class="footer__brand">
       <a href="{{ url_for('home') }}" class="navbar__brand">
-        <span class="navbar__mark">PK</span>
+        <span class="navbar__mark">{{ logo_mark() }}</span>
         <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
       </a>
       <p>Software engineering for every sector — enterprise, e-commerce, education and government &amp; defense. Secure by design, built to last.</p>

@@ -55,3 +55,20 @@ def render_icon(name, css_class="icon", size=24):
         'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
         'stroke-linejoin="round" aria-hidden="true">{inner}</svg>'
     ).format(cls=css_class, size=size, inner=Markup(inner))
+
+
+# The Peemkay TECH brand mark — twin peaks with a woven ribbon/signal wave,
+# always rendered in the dark navy ink on top of the badge's cyan gradient.
+LOGO_MARK_PATHS = (
+    '<path d="M8,92 L28,44 Q36,26 46,44 L54,62 Q60,70 66,62 L74,44 Q84,26 92,44 L112,92" '
+    'fill="none" stroke="#04121a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M22,68 C17,68 14,64 15,60 C16,56 20,56 23,59 C32,68 40,54 50,62 C57,68 63,56 73,62 '
+    'C82,68 90,56 98,60 C101,61.5 100,65 105,65 C108,65 110,62 109,58" '
+    'fill="none" stroke="#04121a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'
+)
+
+
+def render_logo_mark(css_class="navbar__mark-icon"):
+    return Markup(
+        '<svg class="{cls}" viewBox="0 0 120 108" aria-hidden="true">{inner}</svg>'
+    ).format(cls=css_class, inner=Markup(LOGO_MARK_PATHS))
