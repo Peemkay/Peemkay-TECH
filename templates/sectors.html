@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Sectors — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}Government & defense, education, e-commerce, enterprise and media — the sectors Peemkay TECH builds production software for.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Sectors</span>
+    <h1>Different industries. <span class="text-gradient">Same standard.</span></h1>
+    <p class="lead">Sectors marked "Proven" have shipped real systems. Others are open engagements I'm ready to take on with the same engineering rigor.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--3" data-reveal>
+    {% for sector in sectors %}
+    <div class="card sector-card">
+      <div class="card__icon">{{ icon(sector.icon) }}</div>
+      {% if sector.proven %}
+        <span class="sector-card__badge sector-card__badge--proven">{{ icon('check-circle') }} Proven experience</span>
+      {% else %}
+        <span class="sector-card__badge sector-card__badge--ready">{{ icon('star') }} Ready to serve</span>
+      {% endif %}
+      <h3>{{ sector.title }}</h3>
+      <p>{{ sector.text }}</p>
+      {% if sector.projects %}
+      <div class="sector-card__projects">
+        {% for p in sector.projects %}<span>{{ p }}</span>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="cta-banner" style="text-align:left;">
+      <span class="eyebrow">{{ icon('lock', 'icon') }} A note on confidentiality</span>
+      <h2 class="mt-0">Government &amp; defense engagements are handled discreetly</h2>
+      <p style="max-width:44rem;">
+        Many projects in the government and defense space involve
+        confidential requirements, internal-use systems, or restricted
+        distribution. What's shown publicly on this site — project names,
+        general capabilities, technology used — is limited to information
+        that is already shareable. Deeper technical and operational details
+        are discussed only under appropriate NDA terms once an engagement is
+        confirmed.
+      </p>
+      <a href="{{ url_for('contact') }}" class="btn btn--gold">Discuss a Confidential Project {{ icon('arrow-right') }}</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

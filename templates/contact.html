@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}Get in touch with Peemkay TECH about a web, mobile, AI/computer-vision, e-commerce or government & defense software project.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Contact</span>
+    <h1>Tell me what you're <span class="text-gradient">building</span>.</h1>
+    <p class="lead">Whether it's a public product or a confidential government engagement, this is where it starts.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-grid" data-reveal>
+
+    <div class="card">
+      <form id="contactForm" method="POST" action="{{ url_for('contact') }}" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-grid">
+          <div class="form-row form-row--2">
+            <div class="field">
+              {{ form.name.label }}
+              {{ form.name(placeholder="Jane Doe") }}
+              {% for error in form.name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+            </div>
+            <div class="field">
+              {{ form.email.label }}
+              {{ form.email(placeholder="jane@company.com") }}
+              {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+            </div>
+          </div>
+
+          <div class="field">
+            {{ form.project_type.label }}
+            {{ form.project_type() }}
+            {% for error in form.project_type.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+
+          <div class="field">
+            {{ form.message.label }}
+            {{ form.message(placeholder="What are you trying to build? Include any constraints — timeline, confidentiality, platform, budget range.") }}
+            {% for error in form.message.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+
+          <div class="field field--honeypot" aria-hidden="true">
+            {{ form.website.label }}
+            {{ form.website(tabindex="-1", autocomplete="off") }}
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Send Message {{ icon('send') }}</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <div class="contact-info-card">
+        <div class="card__icon">{{ icon('mail') }}</div>
+        <div>
+          <h4>Email</h4>
+          <p><a href="mailto:{{ site.CONTACT_EMAIL }}">{{ site.CONTACT_EMAIL }}</a></p>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div class="card__icon">{{ icon('map-pin') }}</div>
+        <div>
+          <h4>Location</h4>
+          <p>{{ site.LOCATION }}</p>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div class="card__icon">{{ icon('clock') }}</div>
+        <div>
+          <h4>Availability</h4>
+          <p><span class="status-dot"></span>Open to new projects — typical response within 1–2 business days.</p>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div class="card__icon">{{ icon('github') }}</div>
+        <div>
+          <h4>GitHub</h4>
+          <p><a href="{{ site.GITHUB_URL }}" target="_blank" rel="noopener noreferrer">{{ site.GITHUB_URL }}</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Before you write in</span>
+      <h2>A few common questions</h2>
+    </div>
+    <div class="faq" style="max-width:44rem; margin-inline:auto;">
+      <div class="faq-item">
+        <h4>Do you sign NDAs?</h4>
+        <p>Yes. Confidentiality agreements are a normal part of government, defense and enterprise engagements — happy to review yours or provide one.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do you work with government or defense clients?</h4>
+        <p>Yes — with experience delivering secure communications and biometric identity systems for defense signal units. Mention this in your message and I'll follow up with an appropriate secure process.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What information should I include?</h4>
+        <p>Sector, rough scope, target platforms (web/mobile/desktop), timeline, and anything about confidentiality requirements. More context means a faster, more useful reply.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

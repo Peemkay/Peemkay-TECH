@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Projects — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}Real, shipped software from Peemkay TECH — defense communications systems, biometric verification, e-commerce platforms, education portals and open-source tools.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Projects</span>
+    <h1>Real systems. <span class="text-gradient">Real constraints.</span></h1>
+    <p class="lead">A selection of shipped work across defense, commerce, education and open source. Repos link straight to GitHub.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" data-reveal>
+    <div class="filter-bar" data-filter-bar role="group" aria-label="Filter projects by category">
+      {% for c in categories %}
+      <button type="button" class="filter-btn {{ 'is-active' if loop.first else '' }}" data-filter="{{ c.key }}">{{ c.label }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="grid grid--3">
+      {% for p in projects %}
+      <div class="card project-card" data-project-category="{{ p.category }}">
+        <div class="project-card__top">
+          <div>
+            <span class="project-card__tag">{{ p.category_label }}</span>
+            <h3 class="mt-0">{{ p.title }}</h3>
+          </div>
+          {% if p.confidential %}<span class="project-card__confidential">{{ icon('lock') }} Limited details</span>{% endif %}
+        </div>
+        <p>{{ p.description }}</p>
+        <ul class="project-card__highlights">
+          {% for h in p.highlights %}
+          <li>{{ icon('check-circle') }} <span>{{ h }}</span></li>
+          {% endfor %}
+        </ul>
+        <div class="project-card__tech">
+          {% for t in p.tech %}<span>{{ t }}</span>{% endfor %}
+        </div>
+        <div class="project-card__footer">
+          <a href="{{ p.repo }}" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">{{ icon('github') }} View Repo {{ icon('external-link') }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="cta-banner">
+      <span class="eyebrow">More on GitHub</span>
+      <h2>This is a curated selection</h2>
+      <p>Additional repositories, experiments and smaller tools live on GitHub.</p>
+      <div class="cta-banner__actions">
+        <a href="{{ site.GITHUB_URL }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary">{{ icon('github') }} Visit GitHub Profile</a>
+        <a href="{{ url_for('contact') }}" class="btn btn--ghost">Start a Project {{ icon('arrow-right') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

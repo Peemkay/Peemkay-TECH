@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}{{ site.SITE_NAME }} — Software Engineering for Every Sector{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__content" data-reveal>
+      <span class="eyebrow">Available for new projects</span>
+      <h1>Software engineering for every sector — from <span class="text-gradient">enterprise</span> to <span class="text-gold">defense</span>.</h1>
+      <p class="lead">
+        I'm Peemkay — I design and build secure, production-grade web, mobile
+        and desktop systems for government &amp; defense signal units, e-commerce
+        brands, schools and growing businesses alike.
+      </p>
+      <div class="hero__cta">
+        <a href="{{ url_for('projects') }}" class="btn btn--primary">View Projects {{ icon('arrow-right') }}</a>
+        <a href="{{ url_for('contact') }}" class="btn btn--ghost">Start a Project</a>
+      </div>
+      <div class="hero__stats">
+        {% for s in stats %}
+        <div class="stat"><b>{{ s.value }}</b><span>{{ s.label }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="hero__panel" data-reveal>
+      <div class="hero__panel-bar">
+        <span></span><span></span><span></span>
+        <small>peemkay@tech:~</small>
+      </div>
+      <div class="hero__panel-body">
+        <div class="line"><span class="prompt">$</span> whoami</div>
+        <div class="line out">Peemkay — Founder &amp; Lead Software Engineer, Peemkay TECH</div>
+        <div class="line"><span class="prompt">$</span> ./deploy --sector=all</div>
+        <div class="line out"><span class="ok">✓</span> government &amp; defense &nbsp; <span class="ok">✓</span> e-commerce &nbsp; <span class="ok">✓</span> education</div>
+        <div class="line"><span class="prompt">$</span> status<span class="cursor"></span></div>
+      </div>
+      <div class="hero__badges">
+        <span>Python</span><span>Flutter</span><span>Django</span><span>Flask</span><span>Computer Vision</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="container" data-reveal>
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Trusted across industries</span>
+      <h2>Built for the sectors that can't afford to get it wrong</h2>
+    </div>
+    <div class="chip-row">
+      {% for sector in sectors %}
+      <span class="chip">{{ icon(sector.icon) }} {{ sector.title }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container grid" style="grid-template-columns: 1fr; gap: 2rem;" data-reveal>
+    <div class="section-head">
+      <span class="eyebrow">Why Peemkay TECH</span>
+      <h2>Engineering discipline that travels across sectors</h2>
+      <p>The same rigor that secures a defense signal unit's communications also keeps a boutique's customer data and payments trustworthy.</p>
+    </div>
+    <div class="grid grid--4">
+      {% for v in value_props %}
+      <div class="card value-card">
+        <div class="card__icon">{{ icon(v.icon) }}</div>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" data-reveal>
+    <div class="cta-banner" style="text-align:left; display:grid; grid-template-columns: 1fr; gap: 2rem;">
+      <div class="grid" style="grid-template-columns: 1fr; gap: 1.5rem; align-items:center;">
+        <div>
+          <span class="eyebrow">{{ icon('shield', 'icon') }} Government &amp; Defense</span>
+          <h2 class="mt-0">Mission-critical software for signal &amp; command units</h2>
+          <p style="margin-bottom:1.5rem; max-width:42rem;">
+            Real engagements delivering secure communications, dispatch
+            management and biometric identity verification for defense
+            signal units — offline-first, confidential, and built to hold up
+            under real operating conditions. Details shown publicly are
+            limited to what's already shareable; sensitive engagements are
+            handled under NDA.
+          </p>
+          <a href="{{ url_for('sectors') }}" class="btn btn--gold btn--sm">Explore Defense &amp; Government Work {{ icon('arrow-right') }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="section-head">
+      <span class="eyebrow">Selected work</span>
+      <h2>Featured projects</h2>
+      <p>A sample of real systems built across defense, e-commerce and beyond.</p>
+    </div>
+    <div class="grid grid--3">
+      {% for p in projects %}
+      <div class="card project-card">
+        <div class="project-card__top">
+          <div>
+            <span class="project-card__tag">{{ p.category_label }}</span>
+            <h3 class="mt-0">{{ p.title }}</h3>
+          </div>
+          {% if p.confidential %}<span class="project-card__confidential">{{ icon('lock') }} Limited details</span>{% endif %}
+        </div>
+        <p>{{ p.summary }}</p>
+        <div class="project-card__tech">
+          {% for t in p.tech %}<span>{{ t }}</span>{% endfor %}
+        </div>
+        <div class="project-card__footer">
+          <a href="{{ p.repo }}" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">{{ icon('github') }} View Repo</a>
+          <a href="{{ url_for('projects') }}" class="card__link">Details {{ icon('arrow-right') }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center" style="margin-top:2.5rem;">
+      <a href="{{ url_for('projects') }}" class="btn btn--primary">See All Projects {{ icon('arrow-right') }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" data-reveal>
+    <div class="section-head section-head--center">
+      <span class="eyebrow">What I do</span>
+      <h2>Services built around real delivery</h2>
+    </div>
+    <div class="grid grid--4">
+      {% for s in services %}
+      <div class="card">
+        <div class="card__icon">{{ icon(s.icon) }}</div>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.summary }}</p>
+        <a href="{{ url_for('services') }}" class="card__link">Learn more {{ icon('arrow-right') }}</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Tech stack</span>
+      <h2>Tools trusted for production systems</h2>
+    </div>
+    <div class="chip-row">
+      {% for group in skill_groups %}
+        {% for skill in group.skills[:3] %}
+        <span class="chip">{{ skill }}</span>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    <div class="text-center" style="margin-top:2rem;">
+      <a href="{{ url_for('skills') }}" class="btn btn--ghost btn--sm">View Full Stack {{ icon('arrow-right') }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" data-reveal>
+    <div class="cta-banner">
+      <span class="eyebrow">Let's build something</span>
+      <h2>Have a project — sensitive, commercial, or somewhere in between?</h2>
+      <p>Tell me what you're building. I'll get back to you with honest scoping, not a sales pitch.</p>
+      <div class="cta-banner__actions">
+        <a href="{{ url_for('contact') }}" class="btn btn--primary">Start a Conversation {{ icon('send') }}</a>
+        <a href="{{ site.GITHUB_URL }}" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">{{ icon('github') }} View GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

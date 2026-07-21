@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}About — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}Peemkay TECH is a software engineering practice building secure, cross-platform systems for government, defense, education, e-commerce and enterprise clients.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">About</span>
+    <h1>Engineering software that has to be <span class="text-gradient">trusted</span>, not just shipped.</h1>
+    <p class="lead">I'm Peemkay, founder and lead engineer at Peemkay TECH — a software practice built around one idea: the sector shouldn't determine the quality bar.</p>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="container grid" style="grid-template-columns:1fr; gap:2rem;" data-reveal>
+    <div class="grid" style="grid-template-columns:1fr; gap:1.25rem; max-width:48rem;">
+      <p>
+        Peemkay TECH began the way most serious engineering practices do —
+        solving a real, high-stakes problem. Early work building secure
+        communications, dispatch management and biometric identity
+        verification systems for a military signal corps set the bar: the
+        software had to work offline, protect sensitive data, and never fail
+        quietly.
+      </p>
+      <p>
+        That same discipline now carries over into every engagement —
+        whether it's a Django storefront processing real customer payments, a
+        student portal serving an institution, or a new AI-driven idea that
+        needs a technical co-builder, not just a coder for hire.
+      </p>
+      <p>
+        I work end-to-end: architecture, backend, frontend, mobile and
+        deployment — across Python (Flask/Django) and Flutter, with computer
+        vision and biometric systems as a specialty. Confidential and
+        NDA-based engagements, common in government and defense work, are a
+        normal part of how I operate.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="section-head">
+      <span class="eyebrow">What I hold to</span>
+      <h2>Core values</h2>
+    </div>
+    <div class="grid grid--4">
+      {% for v in core_values %}
+      <div class="card">
+        <div class="card__icon">{{ icon('check-circle') }}</div>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" data-reveal>
+    <div class="section-head section-head--center">
+      <span class="eyebrow">How projects run</span>
+      <h2>A process built for accountability</h2>
+      <p>Six stages, applied whether the project is public-facing or fully confidential.</p>
+    </div>
+    <div class="process-grid">
+      {% for step in approach_steps %}
+      <div class="process-step">
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="cta-banner">
+      <span class="eyebrow">Let's talk</span>
+      <h2>Want to know if I'm the right fit for your project?</h2>
+      <p>Reach out with what you're building — sector, scale and constraints — and I'll tell you honestly.</p>
+      <div class="cta-banner__actions">
+        <a href="{{ url_for('contact') }}" class="btn btn--primary">Get in Touch {{ icon('send') }}</a>
+        <a href="{{ url_for('projects') }}" class="btn btn--ghost">See the Work {{ icon('arrow-right') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

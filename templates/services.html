@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Services — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}Custom software, government & defense technology, AI/computer vision, e-commerce platforms, mobile apps, API integration and ongoing support — from Peemkay TECH.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Services</span>
+    <h1>Software services built around <span class="text-gradient">outcomes</span>, not templates.</h1>
+    <p class="lead">Each engagement starts with your actual constraints — budget, timeline, sensitivity, scale — not a fixed package.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2" data-reveal>
+    {% for s in services %}
+    <div class="card service-card" id="{{ s.slug }}">
+      <div class="card__icon">{{ icon(s.icon) }}</div>
+      <h3>{{ s.title }}</h3>
+      <p>{{ s.summary }}</p>
+      <ul>
+        {% for b in s.bullets %}
+        <li>{{ icon('check-circle') }} {{ b }}</li>
+        {% endfor %}
+      </ul>
+      <a href="{{ url_for('contact') }}?service={{ s.slug }}" class="card__link">Request this service {{ icon('arrow-right') }}</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="cta-banner">
+      <span class="eyebrow">Not sure which service fits?</span>
+      <h2>Start with a conversation, not a quote form.</h2>
+      <p>Describe the problem you're solving and I'll recommend the right approach — even if that means a smaller scope than you expected.</p>
+      <div class="cta-banner__actions">
+        <a href="{{ url_for('contact') }}" class="btn btn--primary">Start a Project {{ icon('send') }}</a>
+        <a href="{{ url_for('sectors') }}" class="btn btn--ghost">Browse by Sector {{ icon('arrow-right') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

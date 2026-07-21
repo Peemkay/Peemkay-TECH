@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site.SITE_NAME }} — {{ site.SITE_TAGLINE }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site.SITE_DESCRIPTION }}{% endblock %}">
+<meta name="keywords" content="{{ site.SITE_KEYWORDS }}">
+<meta name="author" content="{{ site.SITE_NAME }}">
+<meta name="theme-color" content="#060a12">
+<link rel="canonical" href="{{ site.SITE_URL }}{{ request.path if request else '' }}">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.SITE_NAME }}">
+<meta property="og:title" content="{% block og_title %}{{ site.SITE_NAME }} — {{ site.SITE_TAGLINE }}{% endblock %}">
+<meta property="og:description" content="{{ site.SITE_DESCRIPTION }}">
+<meta property="og:image" content="{{ site.SITE_URL }}{{ url_for('static', filename='images/og-cover.png') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ site.SITE_NAME }}">
+<meta name="twitter:description" content="{{ site.SITE_DESCRIPTION }}">
+<meta name="twitter:image" content="{{ site.SITE_URL }}{{ url_for('static', filename='images/og-cover.png') }}">
+
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/favicon-192.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="navbar" id="navbar">
+  <div class="container navbar__inner">
+    <a href="{{ url_for('home') }}" class="navbar__brand" aria-label="{{ site.SITE_NAME }} home">
+      <span class="navbar__mark">PK</span>
+      <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
+    </a>
+
+    <nav class="navbar__nav" id="primary-nav" aria-label="Primary">
+      <ul class="navbar__links">
+        {% for link in nav_links %}
+        <li>
+          <a href="{{ url_for(link.endpoint) }}"
+             class="navbar__link {{ 'is-active' if request.endpoint == link.endpoint else '' }}">
+            {{ link.label }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="navbar__actions">
+      <a href="{{ site.GITHUB_URL }}" class="navbar__icon-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+        {{ icon('github') }}
+      </a>
+      <a href="{{ url_for('contact') }}" class="btn btn--primary btn--sm navbar__cta">Let's Talk</a>
+      <button type="button" class="navbar__toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
+        {{ icon('menu', 'icon icon--menu') }}
+        {{ icon('x', 'icon icon--close') }}
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul class="mobile-menu__links">
+    {% for link in nav_links %}
+    <li style="--i: {{ loop.index }}">
+      <a href="{{ url_for(link.endpoint) }}" class="{{ 'is-active' if request.endpoint == link.endpoint else '' }}">{{ link.label }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  <div class="mobile-menu__footer">
+    <a href="{{ site.GITHUB_URL }}" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm">{{ icon('github') }} GitHub</a>
+    <a href="{{ url_for('contact') }}" class="btn btn--primary btn--sm">Let's Talk</a>
+  </div>
+</div>
+
+<main id="main-content">
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-stack container">
+    {% for category, message in messages %}
+    <div class="flash flash--{{ category }}" role="status">
+      {{ icon('check-circle') }}
+      <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="{{ url_for('home') }}" class="navbar__brand">
+        <span class="navbar__mark">PK</span>
+        <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
+      </a>
+      <p>Software engineering for every sector — enterprise, e-commerce, education and government &amp; defense. Secure by design, built to last.</p>
+      <div class="footer__social">
+        <a href="{{ site.GITHUB_URL }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{{ icon('github') }}</a>
+        <a href="mailto:{{ site.CONTACT_EMAIL }}" aria-label="Email">{{ icon('mail') }}</a>
+        {% if site.LINKEDIN_URL %}<a href="{{ site.LINKEDIN_URL }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>{% endif %}
+        {% if site.TWITTER_URL %}<a href="{{ site.TWITTER_URL }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">X</a>{% endif %}
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Navigate</h4>
+      <ul>
+        {% for link in nav_links %}
+        <li><a href="{{ url_for(link.endpoint) }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Sectors</h4>
+      <ul>
+        <li><a href="{{ url_for('sectors') }}">Government &amp; Defense</a></li>
+        <li><a href="{{ url_for('sectors') }}">E-Commerce &amp; Retail</a></li>
+        <li><a href="{{ url_for('sectors') }}">Education</a></li>
+        <li><a href="{{ url_for('sectors') }}">Enterprise Services</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Get in Touch</h4>
+      <ul>
+        <li><a href="mailto:{{ site.CONTACT_EMAIL }}">{{ site.CONTACT_EMAIL }}</a></li>
+        <li>{{ site.LOCATION }}</li>
+        <li><span class="status-dot"></span> Open to new projects</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__bottom container">
+    <p>&copy; {{ current_year() }} {{ site.SITE_NAME }}. All rights reserved.</p>
+    <p class="footer__credit">Built with Python &amp; Flask</p>
+  </div>
+</footer>
+
+<button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">
+  {{ icon('arrow-up') }}
+</button>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

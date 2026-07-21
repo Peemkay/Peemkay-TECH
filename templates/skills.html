@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Skills & Tech Stack — {{ site.SITE_NAME }}{% endblock %}
+{% block description %}The languages, frameworks, security practices and platforms Peemkay TECH uses to ship production software across sectors.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Skills</span>
+    <h1>A stack chosen for <span class="text-gradient">reliability</span>, not resume-padding.</h1>
+    <p class="lead">Every tool here has shipped in a real, production system — not a tutorial project.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2" data-reveal>
+    {% for group in skill_groups %}
+    <div class="skill-group">
+      <div class="skill-group__head">
+        <div class="card__icon">{{ icon(group.icon) }}</div>
+        <h3 class="mt-0">{{ group.title }}</h3>
+      </div>
+      <div class="skill-pills">
+        {% for skill in group.skills %}
+        <span class="skill-pill">{{ skill }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container" data-reveal>
+    <div class="cta-banner">
+      <span class="eyebrow">Need something specific?</span>
+      <h2>Don't see the exact stack you need?</h2>
+      <p>If it's not listed, there's a good chance I can still help — or tell you honestly if it's not a fit.</p>
+      <div class="cta-banner__actions">
+        <a href="{{ url_for('contact') }}" class="btn btn--primary">Ask a Question {{ icon('send') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
