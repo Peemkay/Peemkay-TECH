@@ -21,7 +21,12 @@ from email.message import EmailMessage
 
 from dotenv import load_dotenv
 
-load_dotenv()  # picks up .env for local dev; harmless no-op if absent
+# Load .env explicitly from this file's own directory rather than relying on
+# load_dotenv()'s automatic upward-search (which infers a starting point
+# from stack-frame introspection and can behave differently — or fail
+# silently — depending on how the module was imported, e.g. under mod_wsgi
+# vs a plain `python app.py`). A harmless no-op if the file isn't there.
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 from flask import Flask, flash, redirect, render_template, url_for  # noqa: E402
 from flask_login import LoginManager  # noqa: E402
