@@ -13,6 +13,7 @@ from functools import wraps
 
 from flask import Blueprint, abort, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
+from PIL import Image
 from werkzeug.utils import secure_filename
 
 from admin_forms import (
@@ -65,6 +66,21 @@ def save_upload(file_storage, prefix="img"):
     ext = file_storage.filename.rsplit(".", 1)[-1].lower() if "." in file_storage.filename else ""
     if ext not in current_app.config["ALLOWED_UPLOAD_EXTENSIONS"]:
         return None
+
+    # Verify the upload is genuinely an image before it ever touches disk —
+    # a renamed non-image (or a malformed/corrupt one) would otherwise
+    # either land straight in static/ or crash the request. Pillow can raise
+    # a variety of exception types for bad image data (UnidentifiedImageError,
+    # OSError, SyntaxError, ValueError...) depending on the format and what's
+    # wrong with it — since any parse failure here just means "reject this
+    # upload", catch broadly rather than trying to enumerate every case.
+    try:
+        file_storage.stream.seek(0)
+        Image.open(file_storage.stream).verify()
+        file_storage.stream.seek(0)
+    except Exception:
+        return None
+
     filename = secure_filename(f"{prefix}-{uuid.uuid4().hex[:10]}.{ext}")
     upload_dir = current_app.config["UPLOAD_FOLDER"]
     os.makedirs(upload_dir, exist_ok=True)

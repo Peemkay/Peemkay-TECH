@@ -14,6 +14,7 @@ First-time setup (creates the database + an admin account):
     flask create-admin
 """
 import logging
+import os
 import smtplib
 from datetime import datetime
 from email.message import EmailMessage
@@ -47,12 +48,40 @@ from models import (
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# The default SECRET_KEY (and the .env.example placeholder) are public —
+# sitting in this repo's history on GitHub — and it protects session
+# cookies and CSRF tokens, so running production with either would let
+# anyone forge an admin session. Fail loudly rather than deploy silently
+# insecure. Checked by weakness (short and/or a known placeholder pattern)
+# rather than an exact string match, so it also catches someone typing a
+# throwaway value in by hand.
+_secret_key = app.config["SECRET_KEY"] or ""
+_INSECURE_MARKERS = ("change-me", "changeme", "dev-key", "your-secret", "secret-key-here")
+if not app.config["DEBUG"] and (
+    len(_secret_key) < 32 or any(marker in _secret_key.lower() for marker in _INSECURE_MARKERS)
+):
+    raise RuntimeError(
+        "SECRET_KEY is missing, default, or too weak for production. Set a "
+        "real random SECRET_KEY in your .env "
+        '(generate one with: python -c "import secrets; print(secrets.token_hex(32))")'
+    )
+
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 app.jinja_env.globals["icon"] = render_icon
 app.jinja_env.globals["logo_mark"] = render_logo_mark
 app.jinja_env.globals["current_year"] = lambda: datetime.now().year
 
 logger = logging.getLogger(__name__)
+
+# instance/ and static/images/uploads/ are gitignored (they hold the DB and
+# admin-uploaded files, not source), so a fresh clone — e.g. on
+# PythonAnywhere — won't have them yet. Create them up front rather than
+# letting SQLite fail with "unable to open database file" on first request.
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+_db_uri = app.config["SQLALCHEMY_DATABASE_URI"]
+if _db_uri.startswith("sqlite:///"):
+    os.makedirs(os.path.dirname(_db_uri[len("sqlite:///"):]), exist_ok=True)
 
 db.init_app(app)
 csrf = CSRFProtect(app)

@@ -2,7 +2,7 @@
 
 On PythonAnywhere, go to the Web tab -> your web app -> "WSGI configuration
 file" (something like /var/www/yourusername_pythonanywhere_com_wsgi.py) and
-replace its contents with this, adjusting the two values marked below.
+replace its contents with this, adjusting the path marked below.
 """
 import sys
 
