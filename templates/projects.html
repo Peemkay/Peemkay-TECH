@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Projects — {{ site.SITE_NAME }}{% endblock %}
 {% block description %}Real, shipped software from Peemkay TECH — defense communications systems, biometric verification, e-commerce platforms, education portals and open-source tools.{% endblock %}
+{% block body_class %}page-projects{% endblock %}
 
 {% block content %}
 
@@ -23,6 +24,9 @@
     <div class="grid grid--3">
       {% for p in projects %}
       <div class="card project-card" data-project-category="{{ p.category }}">
+        <div class="card-cover">
+          {% if p.image %}<img src="{{ url_for('static', filename='images/' + p.image) }}" alt="{{ p.title }} cover artwork" loading="lazy" width="760" height="428">{% endif %}
+        </div>
         <div class="project-card__top">
           <div>
             <span class="project-card__tag">{{ p.category_label }}</span>

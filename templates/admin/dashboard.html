@@ -1,0 +1,64 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="admin-stat-grid">
+  <a href="{{ url_for('admin.projects_list') }}" class="admin-stat-card">
+    <div class="admin-stat-card__icon">{{ icon('terminal') }}</div>
+    <div><b>{{ counts.projects }}</b><span>Projects</span></div>
+  </a>
+  <a href="{{ url_for('admin.sectors_list') }}" class="admin-stat-card">
+    <div class="admin-stat-card__icon">{{ icon('globe') }}</div>
+    <div><b>{{ counts.sectors }}</b><span>Sectors</span></div>
+  </a>
+  <a href="{{ url_for('admin.services_list') }}" class="admin-stat-card">
+    <div class="admin-stat-card__icon">{{ icon('tool') }}</div>
+    <div><b>{{ counts.services }}</b><span>Services</span></div>
+  </a>
+  <a href="{{ url_for('admin.skill_groups_list') }}" class="admin-stat-card">
+    <div class="admin-stat-card__icon">{{ icon('cpu') }}</div>
+    <div><b>{{ counts.skill_groups }}</b><span>Skill Groups</span></div>
+  </a>
+  <a href="{{ url_for('admin.messages_list') }}" class="admin-stat-card {{ 'admin-stat-card--alert' if counts.unread_messages }}">
+    <div class="admin-stat-card__icon">{{ icon('mail') }}</div>
+    <div><b>{{ counts.messages }}</b><span>{{ counts.unread_messages }} unread message{{ 's' if counts.unread_messages != 1 }}</span></div>
+  </a>
+</div>
+
+<div class="admin-panel-grid">
+  <section class="admin-panel">
+    <div class="admin-panel__head">
+      <h2>Recent messages</h2>
+      <a href="{{ url_for('admin.messages_list') }}" class="card__link">View all {{ icon('arrow-right') }}</a>
+    </div>
+    {% if recent_messages %}
+    <ul class="admin-recent-list">
+      {% for m in recent_messages %}
+      <li>
+        <a href="{{ url_for('admin.message_detail', item_id=m.id) }}">
+          <span class="admin-recent-list__title">{{ '' if m.is_read else icon('star', 'icon icon--unread') }} {{ m.name }}</span>
+          <span class="admin-recent-list__meta">{{ m.project_type }} · {{ m.created_at.strftime('%d %b %Y') }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="admin-empty">No messages yet.</p>
+    {% endif %}
+  </section>
+
+  <section class="admin-panel">
+    <div class="admin-panel__head">
+      <h2>Quick actions</h2>
+    </div>
+    <div class="admin-quick-actions">
+      <a href="{{ url_for('admin.project_new') }}" class="btn btn--ghost btn--sm">{{ icon('terminal') }} New Project</a>
+      <a href="{{ url_for('admin.sector_new') }}" class="btn btn--ghost btn--sm">{{ icon('globe') }} New Sector</a>
+      <a href="{{ url_for('admin.service_new') }}" class="btn btn--ghost btn--sm">{{ icon('tool') }} New Service</a>
+      <a href="{{ url_for('admin.settings') }}" class="btn btn--ghost btn--sm">{{ icon('database') }} Site Settings</a>
+      <a href="{{ url_for('home') }}" target="_blank" rel="noopener" class="btn btn--primary btn--sm">{{ icon('external-link') }} View Live Site</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

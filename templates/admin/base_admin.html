@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}Admin{% endblock %} — {{ site.SITE_NAME }}</title>
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-body{{ ' admin-body--auth' if not current_user.is_authenticated else '' }}">
+
+{% if current_user.is_authenticated %}
+<div class="admin-shell">
+  <aside class="admin-sidebar" id="adminSidebar">
+    <a href="{{ url_for('admin.dashboard') }}" class="admin-brand">
+      <span class="navbar__mark">{{ logo_mark() }}</span>
+      <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
+    </a>
+
+    <nav class="admin-nav">
+      <p class="admin-nav__label">Overview</p>
+      <a href="{{ url_for('admin.dashboard') }}" class="admin-nav__link {{ 'is-active' if request.endpoint == 'admin.dashboard' }}">{{ icon('layers') }} Dashboard</a>
+
+      <p class="admin-nav__label">Content</p>
+      <a href="{{ url_for('admin.projects_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.project') }}">{{ icon('terminal') }} Projects</a>
+      <a href="{{ url_for('admin.sectors_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.sector') }}">{{ icon('globe') }} Sectors</a>
+      <a href="{{ url_for('admin.services_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.service') }}">{{ icon('tool') }} Services</a>
+      <a href="{{ url_for('admin.skill_groups_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.skill_group') }}">{{ icon('cpu') }} Skills</a>
+      <a href="{{ url_for('admin.value_props_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.value_prop') }}">{{ icon('star') }} Value Props</a>
+      <a href="{{ url_for('admin.core_values_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.core_value') }}">{{ icon('shield') }} Core Values</a>
+      <a href="{{ url_for('admin.approach_steps_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.approach_step') }}">{{ icon('check-circle') }} Process Steps</a>
+      <a href="{{ url_for('admin.stats_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.stat') }}">{{ icon('trending-up') }} Hero Stats</a>
+
+      <p class="admin-nav__label">Inbox</p>
+      <a href="{{ url_for('admin.messages_list') }}" class="admin-nav__link {{ 'is-active' if request.endpoint and request.endpoint.startswith('admin.message') }}">
+        {{ icon('mail') }} Messages
+        {% if unread_count %}<span class="admin-badge">{{ unread_count }}</span>{% endif %}
+      </a>
+
+      <p class="admin-nav__label">Account</p>
+      <a href="{{ url_for('admin.settings') }}" class="admin-nav__link {{ 'is-active' if request.endpoint == 'admin.settings' }}">{{ icon('database') }} Site Settings</a>
+      <a href="{{ url_for('admin.change_password') }}" class="admin-nav__link {{ 'is-active' if request.endpoint == 'admin.change_password' }}">{{ icon('lock') }} Change Password</a>
+      <a href="{{ url_for('home') }}" target="_blank" rel="noopener" class="admin-nav__link">{{ icon('external-link') }} View Live Site</a>
+    </nav>
+
+    <form method="POST" action="{{ url_for('admin.logout') }}" class="admin-logout-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" class="admin-nav__link admin-nav__link--logout">{{ icon('arrow-right') }} Log Out</button>
+    </form>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <button type="button" class="admin-topbar__toggle" id="adminSidebarToggle" aria-label="Toggle menu">{{ icon('menu') }}</button>
+      <h1 class="admin-topbar__title">{% block page_title %}Dashboard{% endblock %}</h1>
+      <span class="admin-topbar__user">{{ icon('users', 'icon') }} {{ current_user.username }}</span>
+    </header>
+
+    <main class="admin-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="admin-flash-stack">
+          {% for category, message in messages %}
+          <div class="admin-flash admin-flash--{{ category }}">{{ icon('check-circle') if category == 'success' else icon('shield') }} <span>{{ message }}</span></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block admin_content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% else %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="admin-flash-stack admin-flash-stack--auth">
+      {% for category, message in messages %}
+      <div class="admin-flash admin-flash--{{ category }}">{{ icon('check-circle') if category == 'success' else icon('shield') }} <span>{{ message }}</span></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+  {% block auth_content %}{% endblock %}
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

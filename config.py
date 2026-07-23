@@ -17,10 +17,32 @@ class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-key-change-me-in-production")
     DEBUG = _bool(os.environ.get("FLASK_DEBUG"), default=False)
 
-    # SQLite database that stores contact-form submissions.
-    DATABASE_PATH = os.environ.get(
-        "DATABASE_PATH", os.path.join(BASE_DIR, "instance", "contacts.db")
+    # Primary application database — site content, admin user, contact
+    # messages. A plain SQLite file is plenty for a single-admin portfolio.
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or (
+        "sqlite:///" + os.path.join(BASE_DIR, "instance", "app.db")
     )
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Uploaded cover images / avatar (admin-managed content). Lives under
+    # static/images so it matches the "images/<path>" convention every
+    # template already uses for the seeded placeholder covers.
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "images", "uploads")
+    MAX_CONTENT_LENGTH = 6 * 1024 * 1024  # 6 MB per upload
+    ALLOWED_UPLOAD_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
+    # Admin session cookies. SECURE requires HTTPS — enable in production
+    # (PythonAnywhere serves HTTPS by default) via SESSION_COOKIE_SECURE=true.
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_SECURE = _bool(os.environ.get("SESSION_COOKIE_SECURE"), default=False)
+    PERMANENT_SESSION_LIFETIME = 60 * 60 * 8  # 8 hours
+
+    # Bootstrap credentials for `flask create-admin` / first-run auto-seed.
+    # Only used when no admin user exists yet — safe to leave unset after
+    # the first admin account has been created.
+    ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "")
+    ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 
     # Site identity / metadata
     SITE_NAME = "Peemkay TECH"

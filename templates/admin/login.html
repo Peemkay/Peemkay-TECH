@@ -1,0 +1,33 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Admin Login{% endblock %}
+
+{% block auth_content %}
+<div class="admin-auth">
+  <div class="admin-auth__card">
+    <div class="admin-auth__brand">
+      <span class="navbar__mark">{{ logo_mark() }}</span>
+      <span class="navbar__wordmark">Peemkay<em>TECH</em></span>
+    </div>
+    <span class="eyebrow">{{ icon('lock', 'icon') }} Admin</span>
+    <h1>Sign in to manage your site</h1>
+    <p class="admin-auth__lead">Control every section, card and setting shown on the public site.</p>
+
+    <form method="POST" action="{{ url_for('admin.login') }}" class="form-grid" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="field">
+        {{ form.username.label }}
+        {{ form.username(placeholder="Username", autofocus=true) }}
+        {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+      <div class="field">
+        {{ form.password.label }}
+        {{ form.password(placeholder="••••••••") }}
+        {% for error in form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+      <button type="submit" class="btn btn--primary btn--block">Sign In {{ icon('arrow-right') }}</button>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="admin-auth__back">{{ icon('arrow-right', 'icon icon--flip') }} Back to the live site</a>
+  </div>
+</div>
+{% endblock %}

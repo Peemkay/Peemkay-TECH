@@ -8,3 +8,4 @@ instance/
 *.db
 .DS_Store
 *.log
+static/images/uploads/

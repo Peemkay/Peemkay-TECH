@@ -205,6 +205,7 @@ SECTORS = [
     {
         "title": "Government & Defense",
         "icon": "shield",
+        "image": "covers/sector-defense.png",
         "proven": True,
         "text": (
             "Secure communications, dispatch management and biometric identity "
@@ -218,6 +219,7 @@ SECTORS = [
     {
         "title": "Education",
         "icon": "book-open",
+        "image": "covers/sector-education.png",
         "proven": True,
         "text": "Student and academic portals that make information access and administration simpler for institutions and learners alike.",
         "projects": ["NASS Student Portal"],
@@ -225,6 +227,7 @@ SECTORS = [
     {
         "title": "E-Commerce & Retail",
         "icon": "shopping-bag",
+        "image": "covers/sector-ecommerce.png",
         "proven": True,
         "text": "Full production storefronts with catalogue, cart, checkout, regional shipping and payment workflows tailored to local markets.",
         "projects": ["Swagcitybymercy"],
@@ -232,6 +235,7 @@ SECTORS = [
     {
         "title": "Enterprise & Professional Services",
         "icon": "briefcase",
+        "image": "covers/sector-enterprise.png",
         "proven": True,
         "text": "Digital platforms for service-based businesses — from marketing sites to internal tools that streamline operations.",
         "projects": ["Peemkay-SOFTTECH"],
@@ -239,6 +243,7 @@ SECTORS = [
     {
         "title": "Media & Entertainment",
         "icon": "music",
+        "image": "covers/sector-media.png",
         "proven": True,
         "text": "Content-driven web platforms built for scale, discoverability and a smooth reading/browsing experience.",
         "projects": ["9jawavelyrics"],
@@ -246,6 +251,7 @@ SECTORS = [
     {
         "title": "Healthcare",
         "icon": "activity",
+        "image": "covers/sector-healthcare.png",
         "proven": False,
         "text": "Ready to bring the same security-first, offline-resilient engineering approach to patient records, scheduling and clinical workflow tools.",
         "projects": [],
@@ -253,6 +259,7 @@ SECTORS = [
     {
         "title": "Finance & Fintech",
         "icon": "credit-card",
+        "image": "covers/sector-fintech.png",
         "proven": False,
         "text": "Available for secure transaction platforms, dashboards and financial tooling that demand accuracy and strong access control.",
         "projects": [],
@@ -260,6 +267,7 @@ SECTORS = [
     {
         "title": "Startups & New Ventures",
         "icon": "trending-up",
+        "image": "covers/sector-startups.png",
         "proven": False,
         "text": "MVP-to-production builds for founders who need a technical partner who can design, build and ship without hand-holding.",
         "projects": [],
@@ -272,6 +280,7 @@ SECTORS = [
 PROJECTS = [
     {
         "slug": "e-comcen",
+        "image": "covers/project-e-comcen.png",
         "title": "E-COMCEN / NASDS",
         "category": "defense",
         "category_label": "Government & Defense",
@@ -299,6 +308,7 @@ PROJECTS = [
     },
     {
         "slug": "nafacial",
+        "image": "covers/project-nafacial.png",
         "title": "NAFacial",
         "category": "defense",
         "category_label": "Government & Defense · AI",
@@ -324,6 +334,7 @@ PROJECTS = [
     },
     {
         "slug": "swagcitybymercy",
+        "image": "covers/project-swagcitybymercy.png",
         "title": "Swagcitybymercy",
         "category": "ecommerce",
         "category_label": "E-Commerce",
@@ -349,6 +360,7 @@ PROJECTS = [
     },
     {
         "slug": "peemkay-softtech",
+        "image": "covers/project-peemkay-softtech.png",
         "title": "Peemkay-SOFTTECH",
         "category": "web",
         "category_label": "Enterprise",
@@ -369,6 +381,7 @@ PROJECTS = [
     },
     {
         "slug": "nass-portal",
+        "image": "covers/project-nass-portal.png",
         "title": "NASS Student Portal",
         "category": "web",
         "category_label": "Education",
@@ -388,6 +401,7 @@ PROJECTS = [
     },
     {
         "slug": "pidiread",
+        "image": "covers/project-pidiread.png",
         "title": "PidiRead",
         "category": "mobile",
         "category_label": "Mobile · Productivity",
@@ -407,6 +421,7 @@ PROJECTS = [
     },
     {
         "slug": "laravel-gvk",
+        "image": "covers/project-laravel-gvk.png",
         "title": "laravel-gvk",
         "category": "opensource",
         "category_label": "Open Source · Dev Tools",
@@ -426,6 +441,7 @@ PROJECTS = [
     },
     {
         "slug": "9jawavelyrics",
+        "image": "covers/project-9jawavelyrics.png",
         "title": "9jawavelyrics",
         "category": "web",
         "category_label": "Media & Entertainment",

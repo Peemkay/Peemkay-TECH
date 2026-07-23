@@ -85,6 +85,54 @@
     });
   }
 
+  // 3D tilt-on-hover for cards and the hero panel. Skipped for touch
+  // devices (no real pointer to track) and for prefers-reduced-motion.
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (!reduceMotion && hasFinePointer) {
+    var makeTilt = function (el, opts) {
+      opts = opts || {};
+      var max = opts.max || 6;
+      var baseRX = opts.baseRX || 0;
+      var baseRY = opts.baseRY || 0;
+      var lift = opts.lift !== undefined ? opts.lift : -6;
+      var scale = opts.scale || 1.02;
+      var rect = null;
+
+      el.addEventListener("mouseenter", function () {
+        rect = el.getBoundingClientRect();
+        el.style.transition = "transform 0.12s linear";
+      });
+
+      el.addEventListener("mousemove", function (e) {
+        if (!rect) rect = el.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width;
+        var py = (e.clientY - rect.top) / rect.height;
+        var rx = baseRX + (0.5 - py) * max * 2;
+        var ry = baseRY + (px - 0.5) * max * 2;
+        el.style.transform =
+          "perspective(1400px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) " +
+          "translateY(" + lift + "px) scale(" + scale + ")";
+      });
+
+      el.addEventListener("mouseleave", function () {
+        el.style.transition = "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+        el.style.transform = "";
+        rect = null;
+      });
+    };
+
+    document.querySelectorAll(".card").forEach(function (el) {
+      makeTilt(el, { max: 5, lift: -6, scale: 1.015 });
+    });
+
+    var heroPanel = document.querySelector(".hero__panel");
+    if (heroPanel) {
+      makeTilt(heroPanel, { max: 4, baseRX: 4, baseRY: -8, lift: 0, scale: 1.01 });
+    }
+  }
+
   // Contact form: client-side enhancement (native validation still applies)
   var contactForm = document.getElementById("contactForm");
   if (contactForm) {

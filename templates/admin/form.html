@@ -1,0 +1,57 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% macro tag_list_widget(field) %}
+<div class="tag-list" data-tag-list>
+  <div class="tag-list__items" data-tag-list-items>
+    {% for value in field.data %}
+    <div class="tag-list__item" data-tag-list-item>
+      <input type="text" name="{{ field.name }}" value="{{ value }}">
+      <button type="button" class="tag-list__remove" data-tag-list-remove aria-label="Remove item">{{ icon('x') }}</button>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" class="btn btn--ghost btn--sm tag-list__add" data-tag-list-add data-field-name="{{ field.name }}">{{ icon('arrow-right', 'icon icon--rotate') }} Add Item</button>
+</div>
+{% endmacro %}
+
+{% block admin_content %}
+<div class="admin-form-card">
+  <form method="POST" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="admin-form-grid">
+    {% for field in form if field.type not in ('CSRFTokenField', 'HiddenField') %}
+      <div class="field {{ 'field--checkbox' if field.type == 'BooleanField' else '' }} {{ 'field--full' if field.type in ('TextAreaField', 'TagListField') else '' }}">
+        {% if field.type == 'BooleanField' %}
+          <label class="admin-switch">
+            {{ field() }}
+            <span class="admin-switch__track"></span>
+            <span class="admin-switch__label">{{ field.label.text }}</span>
+          </label>
+        {% else %}
+          {{ field.label }}
+          {% if field.type == 'TagListField' %}
+            {{ tag_list_widget(field) }}
+          {% elif field.type == 'TextAreaField' %}
+            {{ field(rows=5) }}
+          {% elif field.type == 'FileField' %}
+            {{ field() }}
+            {% if image_path and field.name == 'image' %}
+              <div class="admin-image-preview"><img src="{{ url_for('static', filename=image_path) }}" alt="Current image"></div>
+            {% endif %}
+          {% else %}
+            {{ field() }}
+          {% endif %}
+        {% endif %}
+        {% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+    <div class="admin-form-actions">
+      <a href="{{ back_url }}" class="btn btn--ghost">Cancel</a>
+      <button type="submit" class="btn btn--primary">{{ submit_label or "Save" }}</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

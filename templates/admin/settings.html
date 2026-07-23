@@ -1,0 +1,47 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Site Settings{% endblock %}
+{% block page_title %}Site Settings{% endblock %}
+
+{% block admin_content %}
+<div class="admin-panel-grid">
+  <div class="admin-form-card">
+    <h2 class="mt-0" style="margin-bottom:1.25rem;">General &amp; Contact</h2>
+    <form method="POST" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="admin-form-grid">
+        {% for field in form if field.type not in ('CSRFTokenField', 'HiddenField') %}
+        <div class="field {{ 'field--full' if field.type == 'TextAreaField' else '' }}">
+          {{ field.label }}
+          {% if field.type == 'TextAreaField' %}{{ field(rows=4) }}{% else %}{{ field() }}{% endif %}
+          {% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="btn btn--primary">Save Settings</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-form-card">
+    <h2 class="mt-0" style="margin-bottom:1.25rem;">About-Page Avatar</h2>
+    <p class="admin-help" style="margin-bottom:1rem;">Replace the monogram badge on the About page with a real photo whenever you're ready.</p>
+    {% if avatar_path %}
+    <div class="admin-image-preview" style="margin-bottom:1.25rem;">
+      <img src="{{ url_for('static', filename=avatar_path) }}" alt="Current avatar" style="max-width:160px; border-radius:50%;">
+    </div>
+    {% endif %}
+    <form method="POST" action="{{ url_for('admin.update_avatar') }}" enctype="multipart/form-data">
+      {{ avatar_form.hidden_tag() }}
+      <div class="field">
+        {{ avatar_form.image.label }}
+        {{ avatar_form.image() }}
+        {% for error in avatar_form.image.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="btn btn--primary btn--sm">Upload New Avatar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block title %}About — {{ site.SITE_NAME }}{% endblock %}
 {% block description %}Peemkay TECH is a software engineering practice building secure, cross-platform systems for government, defense, education, e-commerce and enterprise clients.{% endblock %}
+{% block body_class %}page-about{% endblock %}
 
 {% block content %}
 
-<section class="page-hero">
-  <div class="container" data-reveal>
-    <span class="eyebrow">About</span>
-    <h1>Engineering software that has to be <span class="text-gradient">trusted</span>, not just shipped.</h1>
-    <p class="lead">I'm Peemkay, founder and lead engineer at Peemkay TECH — a software practice built around one idea: the sector shouldn't determine the quality bar.</p>
+<section class="page-hero page-hero--split">
+  <div class="container page-hero__grid" data-reveal>
+    <div>
+      <span class="eyebrow">About</span>
+      <h1>Engineering software that has to be <span class="text-gradient">trusted</span>, not just shipped.</h1>
+      <p class="lead">I'm Peemkay, founder and lead engineer at Peemkay TECH — a software practice built around one idea: the sector shouldn't determine the quality bar.</p>
+    </div>
+    <div class="avatar-frame">
+      <img src="{{ url_for('static', filename='images/' + site.AVATAR_IMAGE) }}" alt="Peemkay — Founder & Lead Software Engineer" width="480" height="480">
+    </div>
   </div>
 </section>
 

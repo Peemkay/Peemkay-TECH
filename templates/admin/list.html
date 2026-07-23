@@ -1,0 +1,56 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block admin_content %}
+<div class="admin-toolbar">
+  <p class="admin-toolbar__count">{{ items|length }} item{{ 's' if items|length != 1 }}</p>
+  <a href="{{ add_url }}" class="btn btn--primary btn--sm">{{ icon('arrow-right', 'icon icon--rotate') }} Add New</a>
+</div>
+
+{% if items %}
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        {% for label, attr, kind in columns %}<th>{{ label }}</th>{% endfor %}
+        <th class="admin-table__actions-head">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        {% for label, attr, kind in columns %}
+        <td>
+          {% if kind == 'icon' %}
+            <span class="admin-icon-preview">{{ icon(item[attr]) }} <code>{{ item[attr] }}</code></span>
+          {% elif kind == 'bool' %}
+            {% if item[attr] %}<span class="admin-pill admin-pill--yes">{{ icon('check-circle') }} Yes</span>{% else %}<span class="admin-pill admin-pill--no">No</span>{% endif %}
+          {% elif kind == 'count' %}
+            <span class="admin-pill">{{ item[attr]|length }} item{{ 's' if item[attr]|length != 1 }}</span>
+          {% elif kind == 'code' %}
+            <code>{{ item[attr] }}</code>
+          {% else %}
+            {{ item[attr] }}
+          {% endif %}
+        </td>
+        {% endfor %}
+        <td class="admin-table__actions">
+          <a href="{{ url_for(edit_endpoint, item_id=item.id) }}" class="admin-icon-btn" aria-label="Edit">{{ icon('code') }}</a>
+          <form method="POST" action="{{ url_for(delete_endpoint, item_id=item.id) }}" class="admin-inline-form" data-confirm="Delete this item? This can't be undone.">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="admin-icon-btn admin-icon-btn--danger" aria-label="Delete">{{ icon('x') }}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-empty-state">
+  <p>Nothing here yet.</p>
+  <a href="{{ add_url }}" class="btn btn--primary btn--sm">Add the first one {{ icon('arrow-right') }}</a>
+</div>
+{% endif %}
+{% endblock %}

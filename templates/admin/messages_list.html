@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Messages{% endblock %}
+{% block page_title %}Contact Messages{% endblock %}
+
+{% block admin_content %}
+<div class="admin-toolbar">
+  <p class="admin-toolbar__count">{{ items|length }} message{{ 's' if items|length != 1 }}</p>
+</div>
+
+{% if items %}
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <thead>
+      <tr><th>From</th><th>Project Type</th><th>Message</th><th>Received</th><th class="admin-table__actions-head">Actions</th></tr>
+    </thead>
+    <tbody>
+      {% for m in items %}
+      <tr class="{{ 'admin-table__row--unread' if not m.is_read }}">
+        <td>
+          <a href="{{ url_for('admin.message_detail', item_id=m.id) }}" class="admin-message-link">
+            {{ '' if m.is_read else icon('star', 'icon icon--unread') }} <strong>{{ m.name }}</strong>
+          </a>
+          <div class="admin-table__sub">{{ m.email }}</div>
+        </td>
+        <td><span class="admin-pill">{{ m.project_type }}</span></td>
+        <td class="admin-table__truncate">{{ m.message[:80] }}{{ '…' if m.message|length > 80 }}</td>
+        <td>{{ m.created_at.strftime('%d %b %Y, %H:%M') }}</td>
+        <td class="admin-table__actions">
+          <a href="{{ url_for('admin.message_detail', item_id=m.id) }}" class="admin-icon-btn" aria-label="View">{{ icon('eye') }}</a>
+          <form method="POST" action="{{ url_for('admin.message_delete', item_id=m.id) }}" class="admin-inline-form" data-confirm="Delete this message?">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="admin-icon-btn admin-icon-btn--danger" aria-label="Delete">{{ icon('x') }}</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-empty-state"><p>No messages yet — they'll show up here as visitors use the contact form.</p></div>
+{% endif %}
+{% endblock %}
